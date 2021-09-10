@@ -30,7 +30,7 @@ const validationSchema = yup.object({
   name: yup.string().min(3).max(30).required(),
   email: yup.string().email().required(),
   phone: yup.string().min(14).max(14).required(),
-  favorite: yup.boolean(),
+  favorite: yup.string(),
 });
 
 const validationUpdateStatusSchema = yup.object({

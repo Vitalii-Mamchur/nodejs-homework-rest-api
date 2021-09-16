@@ -1,7 +1,9 @@
 const { Schema, model } = require("mongoose");
 const yup = require("yup");
 
-const phoneRegexp = /^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/;
+const phoneRegex = /^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/;
+const emailRegex =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const contactSchema = Schema(
   {
@@ -12,11 +14,12 @@ const contactSchema = Schema(
     email: {
       type: String,
       required: true,
+      match: emailRegex,
     },
     phone: {
       type: String,
       required: true,
-      match: phoneRegexp,
+      match: phoneRegex,
     },
     favorite: {
       type: Boolean,
@@ -26,17 +29,17 @@ const contactSchema = Schema(
   { versionKey: false, timestamps: true }
 );
 
-const validationSchema = yup.object({
+const yupContactSchema = yup.object({
   name: yup.string().min(3).max(30).required(),
   email: yup.string().email().required(),
   phone: yup.string().min(14).max(14).required(),
   favorite: yup.boolean(),
 });
 
-const validationUpdateStatusSchema = yup.object({
+const yupUpdateStatusSchema = yup.object({
   favorite: yup.boolean().required(),
 });
 
 const Contact = model("contact", contactSchema);
 
-module.exports = { Contact, validationSchema, validationUpdateStatusSchema };
+module.exports = { Contact, yupContactSchema, yupUpdateStatusSchema };

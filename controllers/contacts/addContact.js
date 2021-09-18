@@ -1,9 +1,9 @@
 const { Contact } = require("../../models");
-const { validationSchema } = require("../../models/contact");
+const { yupContactSchema } = require("../../models/contact");
 
 const addContact = async (req, res, next) => {
   try {
-    const isValid = await validationSchema.isValid(req.body);
+    const isValid = await yupContactSchema.isValid(req.body);
     if (!isValid) {
       return res.status(400).json({ message: "missing required name field" });
     }

@@ -1,12 +1,12 @@
 const { Contact } = require("../../models");
-const { validationUpdateStatusSchema } = require("../../models/contact");
+const { yupUpdateStatusSchema } = require("../../models/contact");
 
 const updateStatusContact = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const { favorite } = req.body;
-    const isValid = await validationUpdateStatusSchema.isValid({ favorite });
+    const isValid = await yupUpdateStatusSchema.isValid({ favorite });
     if (!isValid) {
       return res.status(400).json({ message: "missing field favorite" });
     }

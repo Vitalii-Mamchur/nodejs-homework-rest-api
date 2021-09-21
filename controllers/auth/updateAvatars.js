@@ -6,7 +6,7 @@ const { User } = require("../../models");
 
 const updateAvatars = async (req, res) => {
   console.log(req.file);
-  const { id } = req.params;
+  const { _id } = req.user;
   const { path: tempPath, originalname } = req.file;
   const newNameAvatar = `${Date.now().toString()}-${originalname}`;
   const uploadPath = path.join(
@@ -20,7 +20,7 @@ const updateAvatars = async (req, res) => {
     await file.resize(250, 250).write(tempPath);
     await fs.rename(tempPath, uploadPath);
     const avatarURL = `/avatars/${newNameAvatar}`;
-    await User.findByIdAndUpdate(id, { avatarURL });
+    await User.findByIdAndUpdate(_id, { avatarURL });
 
     res.status(200).json({
       data: {

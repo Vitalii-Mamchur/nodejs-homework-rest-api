@@ -1,5 +1,6 @@
 // const bcrypt = require("bcryptjs");
 const { Conflict } = require("http-errors");
+const gravatar = require("gravatar");
 const { User } = require("../../models");
 const { yupUserSchema } = require("../../models/user");
 
@@ -20,6 +21,9 @@ const signup = async (req, res, _) => {
   // const newUser = await User.create({ email, password: hashPassword });
   const newUser = new User({ email });
   newUser.setPassword(password);
+  const gravatarURL = gravatar.url(`${newUser.email}`);
+  newUser.avatarURL = "https:" + gravatarURL;
+  // console.log(newUser.avatarURL);
   await newUser.save();
   res.status(201).json({
     user: {
